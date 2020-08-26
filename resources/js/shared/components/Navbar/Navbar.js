@@ -1,29 +1,42 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+
+import {
+  Container,
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
+
+import { Menu } from '@material-ui/icons';
 
 import AuthLinks from './AuthLinks';
 import GuestLinks from './GuestLinks';
 
 const Navbar = props => {
   return (
-    <>
-      <Box variant="nav"
-           className="navbar navbar-expand sticky-top navbar-light bg-white py-0 px-5">
-        <Box className="container-xl">
-          <a href="#"
-             className="navbar-brand">laravel</a>
-          {/*left side*/}
-          <ul className="navbar-nav mr-auto">
+    <AppBar position="static">
+      <Container>
+        <Toolbar disableGutters>
+          <IconButton edge="start"
+                      color="inherit"
+                      aria-label="menu">
+            <Menu />
+          </IconButton>
+          <Typography variant="h6"
+                      noWrap>
+            Laravel
+          </Typography>
+          <Box className="mr-auto">
             <GuestLinks />
-          </ul>
-          
-          {/*right side*/}
-          <ul className="navbar-nav ml-auto">
+          </Box>
+          <Box className="ml-auto">
             <AuthLinks />
-          </ul>
-        </Box>
-      </Box>
-    </>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

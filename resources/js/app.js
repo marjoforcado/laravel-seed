@@ -38,6 +38,10 @@ const App = props => {
             <Route path="/"
                    component={HomePage}
                    exact />
+            <Route path="/login"
+                   component={LoginPage} />
+            <Route path="/register"
+                   component={RegisterPage} />
           </Switch>
         </DefaultLayout>
       </Router>
