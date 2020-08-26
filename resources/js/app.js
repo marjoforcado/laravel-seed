@@ -23,6 +23,10 @@ import {
   Route,
 } from 'react-router-dom';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+
+import MomentUtils from '@date-io/moment';
+
 import { CssBaseline } from '@material-ui/core';
 
 import DefaultLayout from '@layouts/DefaultLayout/DefaultLayout';
@@ -35,7 +39,7 @@ import rootReducer from '@store';
 
 const App = props => {
   return (
-    <>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
       <CssBaseline />
       <Router>
         <DefaultLayout>
@@ -50,7 +54,7 @@ const App = props => {
           </Switch>
         </DefaultLayout>
       </Router>
-    </>
+    </MuiPickersUtilsProvider>
   );
 };
 
