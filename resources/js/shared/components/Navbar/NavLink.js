@@ -6,8 +6,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 const StyledButton = styled(Button)`
+  color: inherit;
+  font-weight: bold;
+  
   &:hover {
-    color: #fff;
+    color: inherit;
   }
 `;
 
@@ -16,7 +19,7 @@ const NavLink = props => {
   
   return (
     <StyledButton to={to}
-                  variant="link"
+                  variant="text"
                   component={RouterLink}>{children}</StyledButton>
   );
 };

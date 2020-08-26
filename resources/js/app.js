@@ -14,6 +14,9 @@ require('./bootstrap');
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { Provider, useSelector } from 'react-redux';
+import { createStore } from 'redux';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -27,6 +30,8 @@ import DefaultLayout from '@layouts/DefaultLayout/DefaultLayout';
 import HomePage from '@pages/HomePage';
 import LoginPage from '@pages/LoginPage';
 import RegisterPage from '@pages/RegisterPage';
+
+import rootReducer from '@store';
 
 const App = props => {
   return (
@@ -49,9 +54,16 @@ const App = props => {
   );
 };
 
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+
 if (document.getElementById('app')) {
   ReactDOM.render(
-    <App />,
+    <Provider store={store}>
+      <App />
+    </Provider>,
     document.getElementById('app')
   );
 }
