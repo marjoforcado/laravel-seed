@@ -35,6 +35,7 @@ const RegisterForm = props => {
   return (
     <StyledPaper className="p-3 mx-auto mt-5"
                  elevation={3}>
+      <Typography variant="h4">Login</Typography>
       <form action="#">
         <TextField className="my-2"
                    label="First Name"
@@ -96,7 +97,7 @@ const RegisterForm = props => {
                     type="submit"
                     size="large"
                     color="primary"
-                    variant="contained">Submit</Button>
+                    variant="contained">Register</Button>
           </Box>
         </Box>
       </form>

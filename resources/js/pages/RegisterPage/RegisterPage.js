@@ -4,9 +4,7 @@ import RegisterForm from './components/RegisterForm';
 
 const RegisterPage = props => {
   return (
-    <>
-      <RegisterForm />
-    </>
+    <RegisterForm />
   );
 };
 
