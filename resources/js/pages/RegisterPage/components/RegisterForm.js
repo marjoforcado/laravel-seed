@@ -15,6 +15,8 @@ import {
 
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
+import AuthService from '@services/auth-service';
+
 const StyledPaper = styled(Paper)`
   width: 500px;
 `;
@@ -40,7 +42,13 @@ const RegisterForm = props => {
   
   const onFormSubmit = e => {
     e.preventDefault();
-    console.log('here');
+    AuthService.register$(form)
+      .then(resp => console.log(resp))
+      .catch(error => {
+        if (error) {
+          console.log(error.response.data.message);
+        }
+      });
   };
   
   const onInputChange = e => {

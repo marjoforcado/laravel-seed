@@ -1,6 +1,7 @@
 const AuthService = {
-  register$: () => {
-    console.log('here');
+  register$: payload => {
+    return axios.post('/api/v1/auth/register', payload)
+      .then(resp => resp);
   },
 };
 
