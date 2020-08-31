@@ -31,10 +31,24 @@ const StyledKeyboardDatePicker = styled(KeyboardDatePicker)`
 
 const RegisterForm = props => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  });
   
   const onFormSubmit = e => {
     e.preventDefault();
     console.log('here');
+  };
+  
+  const onInputChange = e => {
+    const { value, name } = e.target;
+    setForm(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
   
   return (
@@ -43,43 +57,49 @@ const RegisterForm = props => {
       <Typography variant="h4">Register</Typography>
       <form action="#" onSubmit={onFormSubmit}>
         <TextField className="my-2"
-                   label="First Name"
+                   name="name"
+                   label="Full Name"
                    variant="outlined"
                    type="text"
+                   onChange={onInputChange}
+                   value={form.name}
                    fullWidth
                    required />
+        {/*<StyledKeyboardDatePicker className="my-2"*/}
+        {/*                          label="Date of birth"*/}
+        {/*                          inputVariant="outlined"*/}
+        {/*                          value={selectedDate}*/}
+        {/*                          onChange={date => setSelectedDate(date)}*/}
+        {/*                          placeholder="MM/DD/YYYY"*/}
+        {/*                          format="MM/DD/YYYY"*/}
+        {/*                          clearable*/}
+        {/*                          disableFuture*/}
+        {/*                          autoOk />*/}
         <TextField className="my-2"
-                   label="Last Name"
-                   variant="outlined"
-                   type="text"
-                   fullWidth
-                   required />
-        <StyledKeyboardDatePicker className="my-2"
-                                  label="Date of birth"
-                                  inputVariant="outlined"
-                                  value={selectedDate}
-                                  onChange={date => setSelectedDate(date)}
-                                  placeholder="MM/DD/YYYY"
-                                  format="MM/DD/YYYY"
-                                  clearable
-                                  disableFuture
-                                  autoOk />
-        <TextField className="my-2"
+                   name="email"
                    label="Email"
                    variant="outlined"
                    type="email"
+                   onChange={onInputChange}
+                   value={form.email}
                    fullWidth
                    required />
         <TextField className="my-2"
+                   name="password"
                    label="Password"
                    variant="outlined"
                    type="password"
+                   onChange={onInputChange}
+                   value={form.password}
                    fullWidth
                    required />
         <TextField className="my-2"
+                   name="password_confirmation"
                    label="Confirm Password"
                    variant="outlined"
                    type="password"
+                   onChange={onInputChange}
+                   value={form.password_confirmation}
                    fullWidth
                    required />
         <Checkbox color="primary" />
