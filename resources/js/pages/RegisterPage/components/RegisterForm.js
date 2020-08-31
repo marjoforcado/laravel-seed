@@ -32,11 +32,16 @@ const StyledKeyboardDatePicker = styled(KeyboardDatePicker)`
 const RegisterForm = props => {
   const [selectedDate, setSelectedDate] = useState(null);
   
+  const onFormSubmit = e => {
+    e.preventDefault();
+    console.log('here');
+  };
+  
   return (
     <StyledPaper className="p-3 mx-auto mt-5"
                  elevation={3}>
-      <Typography variant="h4">Login</Typography>
-      <form action="#">
+      <Typography variant="h4">Register</Typography>
+      <form action="#" onSubmit={onFormSubmit}>
         <TextField className="my-2"
                    label="First Name"
                    variant="outlined"
