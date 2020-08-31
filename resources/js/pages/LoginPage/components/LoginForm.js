@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -11,26 +11,54 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import AuthService from '@services/auth-service';
+
 const StyledPaper = styled(Paper)`
   width: 500px;
 `;
 
 const LoginForm = props => {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
+  
+  const onFormSubmit = e => {
+    e.preventDefault();
+    AuthService.login$(form)
+      .then(resp => console.log(resp));
+  };
+  
+  const onInputChange = e => {
+    const { value, name } = e.target;
+    setForm(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  
   return (
     <StyledPaper className="p-3 mx-auto mt-5"
                  elevation={3}>
       <Typography variant="h4">Login</Typography>
-      <form action="#">
+      <form action="#"
+            onSubmit={onFormSubmit}>
         <TextField className="my-2"
+                   name="email"
                    label="Email"
                    variant="outlined"
                    type="email"
+                   onChange={onInputChange}
+                   value={form.email}
                    fullWidth
                    required />
         <TextField className="my-2"
+                   name="password"
                    label="Password"
                    variant="outlined"
                    type="password"
+                   onChange={onInputChange}
+                   value={form.password}
                    fullWidth
                    required />
         <Divider className="my-3" />
@@ -48,6 +76,7 @@ const LoginForm = props => {
                     variant="contained">Log In</Button>
           </Box>
         </Box>
+        {JSON.stringify(form)}
       </form>
     </StyledPaper>
   );
