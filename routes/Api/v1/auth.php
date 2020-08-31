@@ -4,7 +4,5 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function() {
         'store',
     ]);
 
-    Route::apiResource('login', 'LoginController')->only([
-        'store',
-    ]);
+    Route::post('login', 'LoginController@login');
 });
