@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 
@@ -13,11 +14,15 @@ import {
 
 import AuthService from '@services/auth-service';
 
+import { login } from '@store/creators/auth';
+
 const StyledPaper = styled(Paper)`
   width: 500px;
 `;
 
 const LoginForm = props => {
+  const dispatch = useDispatch();
+  
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -26,7 +31,10 @@ const LoginForm = props => {
   const onFormSubmit = e => {
     e.preventDefault();
     AuthService.login$(form)
-      .then(resp => console.log(resp));
+      .then(resp => {
+        const { user, access_token } = resp.data;
+        dispatch(login(user, access_token));
+      });
   };
   
   const onInputChange = e => {

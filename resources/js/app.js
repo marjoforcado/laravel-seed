@@ -37,7 +37,21 @@ import RegisterPage from '@pages/RegisterPage';
 
 import rootReducer from '@store';
 
-const App = props => {
+const App = () => {
+  const authAccessToken = useSelector(state => state.auth.accessToken);
+  console.log(authAccessToken);
+  
+  axios.interceptors.request.use(
+    config => {
+      if (authAccessToken) {
+        config.headers.common['Authorization'] = `Bearer ${authAccessToken}`;
+      }
+      
+      return config;
+    },
+    error => Promise.reject(error),
+  );
+  
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <CssBaseline />
