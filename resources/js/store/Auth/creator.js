@@ -1,4 +1,4 @@
-import * as actions from '@store/actions/auth';
+import * as actions from './action';
 
 export const login = () => ({
   type: actions.LOG_IN,

@@ -1,4 +1,4 @@
-import * as actions from '@store/actions/auth';
+import * as actions from './action';
 
 const initialState = {
   accessToken: null,
@@ -7,7 +7,7 @@ const initialState = {
 
 import AuthService from '@services/auth-service';
 
-const auth = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.LOG_IN: {
       AuthService.getAuthUser$()
@@ -32,4 +32,4 @@ const auth = (state = initialState, action) => {
   }
 };
 
-export default auth;
+export default reducer;

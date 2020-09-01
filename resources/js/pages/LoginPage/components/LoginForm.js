@@ -18,7 +18,7 @@ import {
   login,
   saveAccessToken,
   saveRefreshToken,
-} from '@store/creators/auth';
+} from '@store/Auth/creator';
 
 const StyledPaper = styled(Paper)`
   width: 500px;
