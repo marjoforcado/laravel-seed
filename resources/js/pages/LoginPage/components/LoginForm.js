@@ -14,7 +14,11 @@ import {
 
 import AuthService from '@services/auth-service';
 
-import { login } from '@store/creators/auth';
+import {
+  login,
+  saveAccessToken,
+  saveRefreshToken,
+} from '@store/creators/auth';
 
 const StyledPaper = styled(Paper)`
   width: 500px;
@@ -32,8 +36,14 @@ const LoginForm = props => {
     e.preventDefault();
     AuthService.login$(form)
       .then(resp => {
-        const { user, access_token } = resp.data;
-        dispatch(login(user, access_token));
+        const {
+          access_token,
+          refresh_token,
+        } = resp.data;
+        
+        dispatch(saveAccessToken(access_token));
+        dispatch(saveRefreshToken(refresh_token));
+        dispatch(login());
       });
   };
   
@@ -84,7 +94,6 @@ const LoginForm = props => {
                     variant="contained">Log In</Button>
           </Box>
         </Box>
-        {JSON.stringify(form)}
       </form>
     </StyledPaper>
   );

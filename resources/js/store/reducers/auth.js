@@ -1,28 +1,31 @@
 import * as actions from '@store/actions/auth';
 
 const initialState = {
-  user: null,
   accessToken: null,
+  refreshToken: null,
 };
 
-// TODO: Integrate auth
+import AuthService from '@services/auth-service';
+
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case actions.LOG_IN: {
-      const { accessToken, user } = action;
-      
-      localStorage.setItem('accessToken', accessToken);
-      
+      AuthService.getAuthUser$()
+        .then(resp => console.log(resp));
+    }
+    case actions.LOG_OUT: {}
+    case actions.SAVE_ACCESS_TOKEN: {
       return {
-        accessToken,
-        user,
+        ...state,
+        accessToken: action.accessToken,
       };
     }
-    
-    case actions.LOG_OUT: {
-      return state = initialState;
+    case actions.SAVE_REFRESH_TOKEN: {
+      return {
+        ...state,
+        refreshToken: action.refreshToken,
+      };
     }
-    
     default: {
       return state;
     }

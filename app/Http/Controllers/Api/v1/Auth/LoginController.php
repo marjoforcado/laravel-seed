@@ -2,75 +2,103 @@
 
 namespace App\Http\Controllers\Api\v1\Auth;
 
+use Route;
 use App\Http\Controllers\Controller;
+use App\Models\Passport\Client;
+use App\User;
 use Illuminate\Http\Request;
 
 class LoginController extends \App\Http\Controllers\Auth\LoginController
 {
+    protected $client;
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * LoginController constructor.
+     * @param Client $client
      */
-    public function index()
+    public function __construct(Client $client)
     {
-        //
+        $this->client = $client;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Log out the user of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function logout(Request $request)
     {
-        $login = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required',
+        if ($request->user()) {
+            $request->user()->token()->revoke();
+        }
+
+        return response()->json([
+            'message' => 'Successfully logged out',
+        ]);
+    }
+
+    public function refresh(Request $request)
+    {
+        $client = $this->client->getPasswordGrantClient();
+
+        $request->request->add([
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $request->refreshToken,
+            'client_id' => $client->id,
+            'client_secret' => $client->secret,
+            'scope' => '',
         ]);
 
-        if (auth()->attempt($login)) {
-            $accessToken = auth()->user()->createToken('accessToken')->accessToken;
+        $proxy = Request::create(
+            'oauth/token',
+            'POST'
+        );
 
-            return response([
-                'user' => auth()->user(),
-                'access_token' => $accessToken,
-            ]);
-        }
+        return Route::dispatch($proxy);
     }
 
     /**
-     * Display the specified resource.
+     * Log in the user of the application.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|mixed
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function show($id)
+    public function login(Request $request)
     {
-        //
+        $this->validateLogin($request);
+
+        $user = User::where('email', $request->email)->firstOrFail();
+
+        return $this->authenticated($request, $user);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Authenticate user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param mixed $user
+     * @return mixed
      */
-    public function update(Request $request, $id)
+    protected function authenticated(Request $request, $user)
     {
-        //
-    }
+        $client = $this->client->getPasswordGrantClient();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $request->request->add([
+            'grant_type' => 'password',
+            'client_id' => $client->id,
+            'client_secret' => $client->secret,
+            'username' => $user->email,
+            'password' => $request->password,
+            'scope' => '',
+        ]);
+
+        $proxy = Request::create(
+            'oauth/token',
+            'POST'
+        );
+
+        return Route::dispatch($proxy);
     }
 }

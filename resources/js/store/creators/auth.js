@@ -1,7 +1,15 @@
 import * as actions from '@store/actions/auth';
 
-export const login = (user, accessToken) => ({
+export const login = () => ({
   type: actions.LOG_IN,
-  user,
+});
+
+export const saveAccessToken = accessToken => ({
+  type: actions.SAVE_ACCESS_TOKEN,
   accessToken,
+});
+
+export const saveRefreshToken = refreshToken => ({
+  type: actions.SAVE_REFRESH_TOKEN,
+  refreshToken,
 });

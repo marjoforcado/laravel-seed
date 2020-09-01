@@ -11,10 +11,15 @@ require('./bootstrap');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Provider, useSelector } from 'react-redux';
+import {
+  Provider,
+  useSelector,
+  useDispatch,
+} from 'react-redux';
+
 import { createStore } from 'redux';
 
 import {
@@ -38,8 +43,7 @@ import RegisterPage from '@pages/RegisterPage';
 import rootReducer from '@store';
 
 const App = () => {
-  const authAccessToken = useSelector(state => state.auth.accessToken);
-  console.log(authAccessToken);
+  const authAccessToken = useSelector(state => state.authStore.accessToken);
   
   axios.interceptors.request.use(
     config => {
@@ -49,7 +53,7 @@ const App = () => {
       
       return config;
     },
-    error => Promise.reject(error),
+    error => Promise.reject(error)
   );
   
   return (
