@@ -4,7 +4,7 @@
  * building robust, powerful web applications using React + Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -14,19 +14,11 @@ require('./bootstrap');
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-import {
-  Provider,
-  useSelector,
-  useDispatch,
-} from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 
 import { createStore } from 'redux';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
@@ -44,31 +36,27 @@ import rootReducer from '@store';
 
 const App = () => {
   const authAccessToken = useSelector(state => state.authStore.accessToken);
-  
+
   axios.interceptors.request.use(
     config => {
       if (authAccessToken) {
         config.headers.common['Authorization'] = `Bearer ${authAccessToken}`;
       }
-      
+
       return config;
     },
     error => Promise.reject(error)
   );
-  
+
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <CssBaseline />
       <Router>
         <DefaultLayout>
           <Switch>
-            <Route path="/"
-                   component={HomePage}
-                   exact />
-            <Route path="/login"
-                   component={LoginPage} />
-            <Route path="/register"
-                   component={RegisterPage} />
+            <Route path="/" component={HomePage} exact />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
           </Switch>
         </DefaultLayout>
       </Router>
@@ -78,7 +66,7 @@ const App = () => {
 
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 if (document.getElementById('app')) {
